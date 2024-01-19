@@ -107,7 +107,7 @@ export const AccountsTable = () => {
                     <SortButton sortType={th} />
                   </th>
                 ))}
-                <th className="row-width">
+                <th className="table-row">
                   Auth Token
                 </th>
               </tr>
@@ -125,8 +125,8 @@ export const AccountsTable = () => {
                       {accountId}
                     </Link>
                   </td>
-                  <td className="row-width">{email}</td>
-                  <td className="row-width">{creationDate}</td>
+                  <td className="table-row">{email}</td>
+                  <td className="table-row">{creationDate}</td>
                   <td>{authToken}</td>
                 </tr>
               ))}

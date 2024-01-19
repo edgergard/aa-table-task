@@ -2,7 +2,7 @@ import './Table.css';
 
 import profilesData from '../data/PROFILES.json';
 import { Table } from 'react-bootstrap';
-import { Link, useParams, useSearchParams, } from 'react-router-dom';
+import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { Order, Profile, ProfileSort, Sort } from '../types';
 import { checkQuery } from '../utils/functions';
 import { FilterInput } from '../components/filter';
@@ -60,8 +60,8 @@ export const ProfilesTable = () => {
 
   return (
     <div className="container">
-      <div className="
-        title d-flex justify-content-center align-items-center gap-4"
+      <div 
+        className="title d-flex justify-content-center align-items-center gap-4"
       >
         <GoBackButton path="/" />
 

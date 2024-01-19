@@ -9,8 +9,8 @@ export const Root = () => (
         <Route index element={<AccountsTable />} />
         <Route path="/account/:accountId" element={<ProfilesTable />} />
         <Route 
-          path="/account/:accountId/profile/:profileId" 
-          element={<CampaignsTable />} 
+          path="/account/:accountId/profile/:profileId"
+          element={<CampaignsTable />}
         />
       </Route>
     </Routes>
