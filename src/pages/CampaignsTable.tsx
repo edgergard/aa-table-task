@@ -1,22 +1,23 @@
-import React from 'react';
-import { Table } from 'react-bootstrap';
-import './style.css';
+import './Table.css';
+
 import campaignsData from '../data/CAMPAIGNS.json';
+import { Table } from 'react-bootstrap';
 import { useParams, useSearchParams } from 'react-router-dom';
-import GoBackButton from '../components/GoBackButton';
-import { Campaign, CampaignSort } from '../types';
-import SortButton from '../components/SortButton';
-import { toDate } from '../utils/functions';
+import { Campaign, CampaignSort, Order, Sort } from '../types';
+import { checkQuery, toDate } from '../utils/functions';
+import { FilterInput, FilterSelect } from '../components/filter';
+import { GoBackButton, SortButton } from '../components/buttons';
 
 const tableHead = ['id', 'clicks', 'cost', 'date'];
 
 function prepareCampaigns(
   campaigns: Campaign[], 
   profileId: string,
-  sortType: string,
-  order: string,
+  sortType: Sort,
+  order: Order,
+  filter: { query: string, year: string },
 ) {
-  const preparedCampaigns = [...campaigns];
+  let preparedCampaigns = [...campaigns];
   const id = +profileId;
 
   const sortFunctions: Record<string, CampaignSort> = {
@@ -30,21 +31,39 @@ function prepareCampaigns(
     preparedCampaigns.sort(sortFunctions[sortType]);
   }
 
-  if (order === 'desc') {
+  if (order === Order.Desc) {
     preparedCampaigns.reverse();
+  }
+
+  if (filter.query) {
+    preparedCampaigns = preparedCampaigns.filter((
+      campaign => checkQuery(campaign.cost.toString(), filter.query)
+    ));
+  }
+
+  if (filter.year !== 'all') {
+    preparedCampaigns = preparedCampaigns.filter((
+      campaign => checkQuery(campaign.date, filter.year)
+    ));
   }
 
   return preparedCampaigns.filter(campaign => campaign.profileId === id);
 }
 
-const CampaignsTable = () => {
+export const CampaignsTable = () => {
   const [searchParams] = useSearchParams();
   const order = (searchParams.get('order') || '');
   const sort = (searchParams.get('sort') || '');
+  const query = (searchParams.get('query') || '');
+  const year = (searchParams.get('year') || '');
 
-  const { profileId } = useParams();
+  const { accountId, profileId } = useParams();
   const campaigns = prepareCampaigns(
-    campaignsData, profileId ?? '', sort, order,
+    campaignsData,
+    profileId ?? '',
+    sort as Sort,
+    order as Order,
+    { query, year }
   );
 
   return (
@@ -52,10 +71,27 @@ const CampaignsTable = () => {
       <div className="
         title d-flex justify-content-center align-items-center gap-4"
       >
-        <GoBackButton />
+        <GoBackButton path={`/account/${accountId}`} />
+
         <h1>Campaigns Table</h1>
       </div>
-      
+
+      <div className="filter">
+        <div className="filter-container">
+          <h4>Cost filter</h4>
+          <FilterInput
+            label="Cost"
+          />
+        </div>
+
+
+        <div className="filter-container">
+          <h4>{`Date filter`}</h4>
+          <FilterSelect
+          />
+        </div>
+      </div>
+
       {campaigns.length ? (
         <Table bordered hover>
           <thead>
@@ -90,5 +126,3 @@ const CampaignsTable = () => {
     </div>
   );
 };
-
-export default CampaignsTable;

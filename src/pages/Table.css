@@ -21,3 +21,18 @@
 .th {
   text-transform: capitalize;
 }
+
+.row-width {
+  width: 380px;
+}
+
+.filter {
+  display: flex;
+  column-gap: 36px;
+}
+
+.filter-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}

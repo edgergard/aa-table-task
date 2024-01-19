@@ -1,0 +1,11 @@
+.input {
+  height: 35.2px;
+}
+
+.cancel-button {
+  cursor: pointer;
+}
+
+.input-container {
+  width: 300px;
+}

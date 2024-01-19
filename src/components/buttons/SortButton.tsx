@@ -1,4 +1,5 @@
 import React from 'react';
+
 import classNames from 'classnames';
 import { useSearchParams } from 'react-router-dom';
 
@@ -6,7 +7,7 @@ type Props = {
   sortType: string;
 };
 
-const SortButton: React.FC<Props> = ({ sortType }) => {
+export const SortButton: React.FC<Props> = ({ sortType }) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const order = (searchParams.get('order') || '');
@@ -37,5 +38,3 @@ const SortButton: React.FC<Props> = ({ sortType }) => {
     />
   );
 };
-
-export default SortButton;
